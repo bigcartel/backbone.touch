@@ -20,7 +20,7 @@
 
     "use strict";
 
-    // The `getValue` and `delegateEventSplitter` is copied from 
+    // The `getValue` and `delegateEventSplitter` is copied from
     // Backbones source, unfortunately these are not available
     // in any form from Backbone itself
     var getValue = function(object, prop) {
@@ -40,7 +40,7 @@
 
         // Drop in replacement for Backbone.View#delegateEvent
         // Enables better touch support
-        // 
+        //
         // If the users device is touch enabled it replace any `click`
         // event with listening for touch(start|move|end) in order to
         // quickly trigger touch taps
@@ -61,6 +61,7 @@
                         {method:method},
                         boundHandler
                     );
+                    this.$el.on(eventName, selector, boundHandler);
                 }
                 else {
                     eventName += suffix;
@@ -88,7 +89,7 @@
         //
         // The `touchPrevents` toggle decides if Backbone.touch
         // will stop propagation and prevent default
-        // for *button* and *a* elements
+
         _touchHandler : function(e) {
             var oe = e.originalEvent || e;
             if (!('changedTouches' in oe)) return;
@@ -107,12 +108,8 @@
                         y < (oldY + threshold) && y > (oldY - threshold)) {
                         this._touching = false;
                         if (this.touchPrevents) {
-                            var tagName = e.currentTarget.tagName;
-                            if (tagName === 'BUTTON' ||
-                                tagName === 'A') {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }
+                            e.preventDefault();
+                            e.stopPropagation();
                         }
                         e.data.method(e);
                     }
